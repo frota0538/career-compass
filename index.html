@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pathfinder — Career Guidance</title>
+<meta name="description" content="Find careers that fit your interests. Explore salaries, required skills, and build a personalized learning roadmap." />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- CSS RESET (trimmed) ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html:focus-within{scroll-behavior:smooth}
+body,h1,h2,h3,h4,p,figure,blockquote,dl,dd{margin:0}
+ul[role="list"],ol[role="list"]{list-style:none;margin:0;padding:0}
+body{min-height:100vh;text-rendering:optimizeLegibility;line-height:1.6;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+img{max-width:100%;display:block}
+button,input,select,textarea{font:inherit}
+:root{
+  --bg: #0b0e14; --card:#111624; --text:#e6ecff; --muted:#9fb0d3; --brand:#6aa6ff; --brand-2:#7bf1a8; --accent:#ffd166;
+  --ring: 0 0 0 3px color-mix(in oklab, var(--brand) 35%, transparent);
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius: 14px;
+}
+:root.light{
+  --bg:#f7f9fd; --card:#ffffff; --text:#10131a; --muted:#4a5772; --brand:#2f6bff; --brand-2:#0fbf7f; --accent:#ffb703;
+  --shadow: 0 10px 24px rgba(38,51,77,.12);
+}
+/* ---------- Global ---------- */
+body{background:var(--bg);color:var(--text)}
+.container{width:min(1200px, 92%); margin-inline:auto}
+.grid{display:grid;gap:1rem}
+.btn{display:inline-flex;align-items:center;gap:.6rem;border:0;border-radius:12px;padding:.75rem 1rem;background:var(--brand);color:white;cursor:pointer;box-shadow:var(--shadow);transition:transform .12s ease,opacity .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.alt{background:transparent;color:var(--text);outline:1px solid color-mix(in oklab,var(--text) 15%, transparent)}
+.btn.ghost{background:transparent;border:0;color:var(--text);padding:.35rem .6rem;border-radius:10px}
+.badge{display:inline-flex;align-items:center;gap:.35rem;padding:.25rem .5rem;border-radius:999px;background:color-mix(in oklab,var(--brand) 15%, transparent);color:var(--text);font-weight:600;font-size:.75rem}
+kbd{background:color-mix(in oklab,var(--text) 15%, transparent);padding:.1rem .35rem;border-radius:.4rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82em;color:var(--text)}
+/* ---------- Header ---------- */
+.header{position:sticky;top:0;z-index:40;background:linear-gradient(180deg, color-mix(in oklab,var(--bg) 80%, transparent), transparent);backdrop-filter:saturate(140%) blur(8px)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.9rem 0}
+.brand{display:flex;align-items:center;gap:.7rem;font-weight:800}
+.brand .logo{width:34px;height:34px;border-radius:8px;background:conic-gradient(from 210deg,var(--brand),var(--brand-2),var(--accent));box-shadow:var(--shadow)}
+.theme-toggle{border-radius:10px;padding:.45rem .65rem}
+.searchbar{display:flex;align-items:center;gap:.6rem;background:var(--card);border:1px solid color-mix(in oklab,var(--text) 12%, transparent);padding:.5rem .7rem;border-radius:12px;width:min(520px, 100%)}
+.searchbar input{flex:1;background:transparent;border:0;color:var(--text);outline:0}
+.searchbar:focus-within{box-shadow:var(--ring)}
+/* ---------- Hero ---------- */
+.hero{padding:3.2rem 0 2rem}
+.hero-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:2rem;align-items:center}
+.hero h1{font-size:clamp(1.8rem, 4vw + .5rem, 3rem);line-height:1.15;letter-spacing:-.02em}
+.hero p{color:var(--muted);margin-top:.7rem}
+.hero .cta{margin-top:1.1rem;display:flex;gap:.8rem;flex-wrap:wrap}
+.hero .panel{background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:.8rem}
+.stat{background:color-mix(in oklab, var(--brand) 12%, transparent);padding:.75rem;border-radius:12px;text-align:center}
+.stat .num{font-weight:800;font-size:1.2rem}
+/* ---------- Filters & Layout ---------- */
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;margin:1.2rem 0}
+.filter{padding:.35rem .7rem;border-radius:999px;border:1px solid color-mix(in oklab,var(--text) 12%, transparent);background:transparent;color:var(--text);cursor:pointer}
+.filter.active{background:var(--brand);border-color:transparent;color:white}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:1.2rem}
+@media (max-width: 900px){.hero-wrap{grid-template-columns:1fr}.layout{grid-template-columns:1fr}}
+.sidebar{position:sticky;top:88px;align-self:start;background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+.card{background:var(--card);padding:1rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.card h3{font-size:1.05rem}
+.card .sub{color:var(--muted);font-size:.92rem;margin-bottom:.35rem}
+.card .chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.5rem}
+.card .bar{height:8px;background:color-mix(in oklab,var(--text) 10%, transparent);border-radius:999px;overflow:hidden}
+.card .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand-2));width:0}
+.card .actions{display:flex;justify-content:space-between;align-items:center;margin-top:.7rem}
+/* ---------- Modal ---------- */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:1rem}
+.modal[open]{display:flex}
+.dialog{background:var(--card);width:min(920px, 96%);max-height:86vh;border-radius:16px;overflow:auto;box-shadow:var(--shadow);outline:1px solid color-mix(in oklab,var(--text) 10%, transparent)}
+.dialog .head{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-bottom:1px solid color-mix(in oklab,var(--text) 10%, transparent)}
+.dialog .body{padding:1rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width: 760px){.two{grid-template-columns:1fr}}
+.skill{background:color-mix(in oklab,var(--brand) 12%, transparent);padding:.5rem .6rem;border-radius:10px;font-weight:600}
+/* ---------- Quiz ---------- */
+.quiz .q{background:var(--card);padding:1rem;border-radius:12px;box-shadow:var(--shadow)}
+.range{accent-color:var(--brand);width:100%}
+/* ---------- Roadmap ---------- */
+.roadmap{display:grid;gap:.7rem;margin-top:.8rem}
+.step{display:flex;align-items:center;gap:.7rem;background:var(--card);padding:.6rem .7rem;border-radius:12px;border:1px dashed color-mix(in oklab,var(--brand) 40%, transparent);cursor:grab}
+.step:active{cursor:grabbing}
+.drag{width:26px;height:26px;border-radius:8px;background:linear-gradient(180deg,var(--brand),var(--brand-2))}
+.handle{font-size:.9rem;color:var(--muted)}
+/* ---------- Footer ---------- */
+footer{margin:2rem 0;color:var(--muted);font-size:.9rem;text-align:center}
+small a{color:var(--muted)}
+/* Utility */
+.hide{display:none !important}
+hr{border:0;height:1px;background:color-mix(in oklab,var(--text) 10%, transparent);margin:1rem 0}
+</style>
+</head>
+<body class="light">
+<header class="header">
+  <div class="container nav">
+    <div class="brand" aria-label="Pathfinder">
+      <div class="logo" aria-hidden="true"></div>
+      <span>Pathfinder</span>
+      <span class="badge"><span aria-hidden="true">✨</span> Career Guidance</span>
+    </div>
+    <form class="searchbar" role="search" aria-label="Search careers" onsubmit="event.preventDefault()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-3.9-3.9M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Search careers, e.g. data analyst" autocomplete="off" />
+      <button class="btn alt" type="button" id="clearBtn" title="Clear (Esc)"><span>Clear</span><kbd>Esc</kbd></button>
+      <button class="btn theme-toggle" type="button" id="themeBtn" aria-pressed="false" title="Toggle theme">
+        <span class="theme-label">☀️</span>
+      </button>
+    </form>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-wrap">
+      <div>
+        <h1 id="hero-title">Find a career you’ll love.</h1>
+        <p>Explore salary ranges, core skills, day‑to‑day tasks, and build a personalized roadmap to get job‑ready.</p>
+        <div class="cta">
+          <a class="btn" href="#explore">Explore Careers</a>
+          <a class="btn alt" href="#quiz">Take Interest Quiz</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="num" id="stat-careers">—</div><div>Careers</div></div>
+          <div class="stat"><div class="num" id="stat-skills">—</div><div>Skills tracked</div></div>
+          <div class="stat"><div class="num" id="stat-bookmarks">0</div><div>Bookmarks</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <strong>Pro Tip:</strong> Use the filters below or press <kbd>/</kbd> to jump to search. Save roles with the ⭐ button.
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore -->
+  <section id="explore" aria-labelledby="explore-title">
+    <div class="controls">
+      <h2 id="explore-title" style="margin-right:.5rem">Explore Careers</h2>
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="tech">Tech</button>
+      <button class="filter" data-filter="design">Design</button>
+      <button class="filter" data-filter="business">Business</button>
+      <button class="filter" data-filter="health">Health</button>
+      <button class="filter" data-filter="public">Public Service</button>
+      <span class="badge" id="countBadge">— results</span>
+      <span class="badge" title="Show bookmarks"><input type="checkbox" id="onlyBookmarks" /> Only ⭐</span>
+    </div>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="sidebar" aria-label="Quick tools">
+        <div class="card">
+          <h3 style="margin-bottom:.4rem">Quick Filters</h3>
+          <label><input type="checkbox" class="fast" data-key="remote" /> Remote‑friendly</label><br/>
+          <label><input type="checkbox" class="fast" data-key="entry" /> Entry‑level options</label><br/>
+          <label><input type="checkbox" class="fast" data-key="math" /> Low math intensity</label><br/>
+          <hr/>
+          <h3 style="margin-bottom:.4rem">Bookmarks</h3>
+          <ul id="bmList" role="list" aria-live="polite" aria-busy="false"></ul>
+        </div>
+        <div class="card" style="margin-top:1rem">
+          <h3 style="margin-bottom:.4rem">Build Your Roadmap</h3>
+          <p class="handle">Drag to reorder, click to mark done.</p>
+          <div class="roadmap" id="roadmap"></div>
+          <div style="display:flex;gap:.5rem;margin-top:.6rem">
+            <input id="roadmapInput" type="text" placeholder="Add a step…" aria-label="Add roadmap step"/>
+            <button class="btn" id="addStepBtn" type="button">Add</button>
+            <button class="btn alt" id="clearDoneBtn" type="button" title="Clear completed">Clear ✓</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Cards -->
+      <section class="cards" id="cards" aria-live="polite"></section>
+    </div>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz" class="quiz" aria-labelledby="quiz-title" style="margin-top:2rem">
+    <h2 id="quiz-title">Interest Quiz</h2>
+    <p class="handle">Rate how much each statement sounds like you (0–10). We’ll suggest careers. ❗</p>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:.8rem">
+      <div class="q"><label>🧩 I enjoy solving logical problems<input class="range" type="range" min="0" max="10" value="5" data-dim="R" /></label></div>
+      <div class="q"><label>🎨 I love creating visuals & layouts<input class="range" type="range" min="0" max="10" value="5" data-dim="A" /></label></div>
+      <div class="q"><label>🤝 I like coordinating people & projects<input class="range" type="range" min="0" max="10" value="5" data-dim="S" /></label></div>
+      <div class="q"><label>📈 I enjoy working with data & trends<input class="range" type="range" min="0" max="10" value="5" data-dim="I" /></label></div>
+      <div class="q"><label>🧪 I’m curious about how things work<input class="range" type="range" min="0" max="10" value="5" data-dim="I" /></label></div>
+      <div class="q"><label>🩺 I want to help people directly<input class="range" type="range" min="0" max="10" value="5" data-dim="H" /></label></div>
+    </div>
+    <div style="display:flex;gap:.6rem;margin-top:.8rem">
+      <button class="btn" id="quizBtn" type="button">Get Suggestions</button>
+      <span class="badge" id="quizScore">R:0 A:0 S:0 I:0 H:0</span>
+    </div>
+    <div id="quizResults" class="grid" style="margin-top:1rem"></div>
+  </section>
+
+  <!-- FAQ -->
+  <section style="margin:2rem 0">
+    <h2>FAQ</h2>
+    <details class="card"><summary><strong>How accurate are salary ranges?</strong></summary>
+      <div style="margin-top:.6rem">They’re indicative only for demo purposes here. Always verify with your local market and trusted reports.</div>
+    </details>
+    <details class="card"><summary><strong>What if I don’t have the listed skills yet?</strong></summary>
+      <div style="margin-top:.6rem">Use the roadmap tool to plan learning—break skills into small steps and track progress.</div>
+    </details>
+    <details class="card"><summary><strong>Can I export my roadmap?</strong></summary>
+      <div style="margin-top:.6rem">Select all, copy, and paste into your notes. In a production version you’d add real export features (CSV/PNG).</div>
+    </details>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <small>© <span id="year"></span> Pathfinder. Built with HTML + CSS + JavaScript. <a href="#hero-title">Back to top ↑</a></small>
+</footer>
+
+<!-- Modal (Career Detail) -->
+<dialog class="modal" id="careerModal" aria-labelledby="modalTitle" aria-modal="true">
+  <div class="dialog">
+    <div class="head">
+      <div>
+        <h3 id="modalTitle">Career</h3>
+        <div class="handle" id="modalSubtitle">—</div>
+      </div>
+      <button class="btn alt" type="button" id="closeModal" aria-label="Close">Close</button>
+    </div>
+    <div class="body">
+      <div class="two">
+        <div>
+          <h4>Overview</h4>
+          <p id="modalOverview" class="handle">Loading…</p>
+          <hr/>
+          <h4>Typical Tasks</h4>
+          <ul id="modalTasks"></ul>
+          <hr/>
+          <h4>Core Skills</h4>
+          <div id="modalSkills" class="chips"></div>
+        </div>
+        <div>
+          <h4>Salary Snapshot</h4>
+          <canvas id="salaryChart" height="220" aria-label="Salary chart" role="img"></canvas>
+          <div class="handle" id="salaryNote">Entry / Mid / Senior (USD)</div>
+          <hr/>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <span class="badge" id="badgeRemote">Remote‑friendly</span>
+            <span class="badge" id="badgeEntry">Entry paths</span>
+            <span class="badge" id="badgeMath">Low math</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* =========================
+   Data (demo, extend freely)
+   ========================= */
+const careers = [
+  {
+    id:"software-engineer",
+    title:"Software Engineer",
+    domain:"tech",
+    blurb:"Build and ship software that powers products and services.",
+    overview:"Software Engineers design, implement, and maintain applications and systems. They collaborate with designers, product managers, and other engineers to deliver reliable, scalable solutions.",
+    tasks:["Design system architecture","Implement features and APIs","Write tests & review code","Monitor performance","Collaborate cross‑functionally"],
+    skills:["JavaScript","HTML/CSS","Git","Data Structures","SQL","Cloud Basics"],
+    salaries:{entry:65000, mid:105000, senior:145000},
+    traits:["R","I"],
+    flags:{remote:true, entry:true, math:false},
+    sampleSteps:["Learn JS fundamentals","Build 3 projects","Understand Git & GitHub","Data structures & algorithms","Apply for internships"]
+  },
+  {
+    id:"data-analyst",
+    title:"Data Analyst",
+    domain:"business",
+    blurb:"Turn raw data into insights and clear decisions.",
+    overview:"Data Analysts clean, explore, and visualize data to help teams make informed decisions. They communicate findings with dashboards and concise reports.",
+    tasks:["Gather & clean data","Analyze trends","Build dashboards","A/B test support","Present insights"],
+    skills:["SQL","Spreadsheets","Python/R (basics)","Data Viz","Statistics"],
+    salaries:{entry:52000, mid:80000, senior:110000},
+    traits:["I","R"],
+    flags:{remote:true, entry:true, math:true},
+    sampleSteps:["Master SQL SELECT/JOIN","Spreadsheet modeling","Visualization best practices","Build 2 dashboards","Portfolio case studies"]
+  },
+  {
+    id:"ui-ux-designer",
+    title:"UI/UX Designer",
+    domain:"design",
+    blurb:"Craft interfaces that are intuitive, inclusive, and delightful.",
+    overview:"Designers research user needs, create wireframes and high‑fidelity designs, and validate solutions through testing to improve usability and accessibility.",
+    tasks:["User research & interviews","Wireframes & prototypes","Design systems","Usability testing","Handoff to devs"],
+    skills:["Figma","User Research","Accessibility","Prototyping","Design Systems"],
+    salaries:{entry:50000, mid:85000, senior:120000},
+    traits:["A","S"],
+    flags:{remote:true, entry:true, math:true},
+    sampleSteps:["Learn Figma","Study heuristics & a11y","Redesign challenge","Prototype & test","Portfolio with case studies"]
+  },
+  {
+    id:"product-manager",
+    title:"Product Manager",
+    domain:"business",
+    blurb:"Own product outcomes from discovery to delivery.",
+    overview:"PMs define product vision, prioritize roadmaps, and coordinate teams to deliver value aligned with business goals and user needs.",
+    tasks:["Discovery & interviews","Write specs","Prioritize roadmap","Stakeholder alignment","Measure outcomes"],
+    skills:["Product Sense","Analytics","Communication","Prioritization","Agile"],
+    salaries:{entry:70000, mid:115000, senior:160000},
+    traits:["S","I"],
+    flags:{remote:true, entry:false, math:true},
+    sampleSteps:["Shadow user interviews","Write PRDs","Learn analytics basics","Ship small project","Lead cross‑team initiative"]
+  },
+  {
+    id:"cybersecurity-analyst",
+    title:"Cybersecurity Analyst",
+    domain:"tech",
+    blurb:"Protect systems and data from threats.",
+    overview:"Cyber analysts monitor systems, investigate incidents, and implement controls to reduce risk across networks, apps, and endpoints.",
+    tasks:["Monitor SIEM alerts","Incident response","Vulnerability scanning","Policy compliance","Security training"],
+    skills:["Networking","Linux","Threat Intel","SIEM","Cloud Security"],
+    salaries:{entry:62000, mid:98000, senior:135000},
+    traits:["R","I"],
+    flags:{remote:true, entry:true, math:true},
+    sampleSteps:["Networking basics","Linux CLI","Security fundamentals","Home lab + SOC skills","CompTIA Security+ (optional)"]
+  },
+  {
+    id:"nurse",
+    title:"Registered Nurse",
+    domain:"health",
+    blurb:"Provide direct patient care and support.",
+    overview:"RNs assess, plan, and deliver patient care in hospitals, clinics, or community settings while coordinating with multidisciplinary teams.",
+    tasks:["Assess patients","Administer meds","Coordinate care","Educate families","Document records"],
+    skills:["Clinical Skills","Communication","Empathy","Time Management","Patient Safety"],
+    salaries:{entry:54000, mid:76000, senior:98000},
+    traits:["H","S"],
+    flags:{remote:false, entry:true, math:true},
+    sampleSteps:["Nursing program","Clinical rotations","Licensure prep","New‑grad residency","Continuing education"]
+  },
+  {
+    id:"teacher",
+    title:"Teacher",
+    domain:"public",
+    blurb:"Inspire and educate the next generation.",
+    overview:"Teachers plan lessons, deliver instruction, and assess learning while supporting diverse student needs and collaborating with parents and staff.",
+    tasks:["Plan lessons","Deliver instruction","Assess learning","Differentiate support","Classroom management"],
+    skills:["Subject Expertise","Instructional Design","Assessment","Communication","Empathy"],
+    salaries:{entry:42000, mid:56000, senior:72000},
+    traits:["S","H"],
+    flags:{remote:false, entry:true, math:true},
+    sampleSteps:["Earn degree & credential","Student teaching","Build lesson plans","Classroom tech","Mentorship & PD"]
+  }
+];
+
+// Derived stats
+const TOTAL_SKILLS = [...new Set(careers.flatMap(c => c.skills))].length;
+
+/* =========================
+   DOM Helpers
+   ========================= */
+const $ = (sel,root=document)=>root.querySelector(sel);
+const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
+const fmt = (n)=>"$"+n.toLocaleString();
+
+/* =========================
+   Theme
+   ========================= */
+const themeBtn = $("#themeBtn");
+const themeLabel = $(".theme-label");
+const savedTheme = localStorage.getItem("theme") || "light";
+document.body.classList.toggle("light", savedTheme==="light");
+document.body.classList.toggle("dark", savedTheme==="dark");
+document.documentElement.classList.toggle("light", savedTheme==="light");
+themeLabel.textContent = savedTheme==="light" ? "☀️" : "🌙";
+themeBtn.setAttribute("aria-pressed", savedTheme==="dark" ? "true":"false");
+themeBtn.addEventListener("click", () => {
+  const light = document.body.classList.toggle("light");
+  document.documentElement.classList.toggle("light", light);
+  themeLabel.textContent = light ? "☀️" : "🌙";
+  themeBtn.setAttribute("aria-pressed", light ? "false":"true");
+  localStorage.setItem("theme", light ? "light":"dark");
+});
+
+/* =========================
+   Search & Filters
+   ========================= */
+const q = $("#q");
+const clearBtn = $("#clearBtn");
+const countBadge = $("#countBadge");
+const onlyBookmarks = $("#onlyBookmarks");
+const filterBtns = $$(".filter");
+const fastChecks = $$(".fast");
+let state = {term:"", domain:"all", fast:{remote:false, entry:false, math:false}, onlyBookmarks:false};
+
+q.addEventListener("input", () => { state.term = q.value.toLowerCase(); render(); });
+clearBtn.addEventListener("click", () => { q.value=""; state.term=""; render(); q.focus(); });
+document.addEventListener("keydown", (e)=>{ if(e.key==="/"){e.preventDefault(); q.focus();} if(e.key==="Escape"){clearBtn.click();} });
+
+filterBtns.forEach(btn => btn.addEventListener("click", ()=>{
+  filterBtns.forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  state.domain = btn.dataset.filter;
+  render();
+}));
+fastChecks.forEach(ch => ch.addEventListener("change", ()=>{
+  state.fast[ch.dataset.key] = ch.checked;
+  render();
+}));
+onlyBookmarks.addEventListener("change", ()=>{ state.onlyBookmarks = onlyBookmarks.checked; render(); });
+
+/* =========================
+   Bookmarks
+   ========================= */
+const bmKey = "pf-bookmarks";
+let bookmarks = new Set(JSON.parse(localStorage.getItem(bmKey) || "[]"));
+const bmList = $("#bmList");
+function toggleBookmark(id){
+  bookmarks.has(id) ? bookmarks.delete(id) : bookmarks.add(id);
+  localStorage.setItem(bmKey, JSON.stringify([...bookmarks]));
+  $("#stat-bookmarks").textContent = bookmarks.size;
+  render();
+  renderBM();
+}
+function renderBM(){
+  bmList.innerHTML = "";
+  if(bookmarks.size===0){ bmList.innerHTML = "<li class='handle'>No bookmarks yet.</li>"; return; }
+  [...bookmarks].forEach(id=>{
+    const c = careers.find(c=>c.id===id);
+    if(!c) return;
+    const li = document.createElement("li");
+    li.innerHTML = `<button class="btn ghost" type="button" data-id="${id}" title="Open ${c.title}">${c.title}</button>`;
+    li.querySelector("button").addEventListener("click", ()=>openModal(c));
+    bmList.appendChild(li);
+  });
+}
+
+/* =========================
+   Render Cards
+   ========================= */
+const cardsEl = $("#cards");
+function matchCareer(c){
+  const t = state.term;
+  const hasText = !t || [c.title,c.blurb,c.overview, c.skills.join(" "), c.tasks.join(" ")].join(" ").toLowerCase().includes(t);
+  const domainOK = state.domain==="all" || c.domain===state.domain;
+  const fast = state.fast;
+  const flagsOK = (!fast.remote || c.flags.remote) && (!fast.entry || c.flags.entry) && (!fast.math || c.flags.math);
+  const bmOK = !state.onlyBookmarks || bookmarks.has(c.id);
+  return hasText && domainOK && flagsOK && bmOK;
+}
+function render(){
+  const result = careers.filter(matchCareer);
+  countBadge.textContent = `${result.length} results`;
+  cardsEl.innerHTML = "";
+  result.forEach(c=>{
+    const card = document.createElement("article");
+    card.className = "card";
+    card.setAttribute("tabindex","0");
+    card.innerHTML = `
+      <h3>${c.title}</h3>
+      <div class="sub">${c.blurb}</div>
+      <div class="chips">${c.skills.slice(0,4).map(s=>`<span class="skill">${s}</span>`).join("")}</div>
+      <div style="margin:.6rem 0 .2rem;display:flex;gap:.5rem;align-items:center">
+        <span class="badge">${c.domain}</span>
+        ${c.flags.remote?`<span class="badge">Remote</span>`:""}
+        ${c.flags.entry?`<span class="badge">Entry</span>`:""}
+      </div>
+      <div class="bar" aria-hidden="true"><span style="width:${Math.min(100, Math.round(c.salaries.senior/1600))}%"></span></div>
+      <div class="actions">
+        <button class="btn" type="button" data-open="${c.id}">Details</button>
+        <button class="btn alt" type="button" data-star="${c.id}" aria-pressed="${bookmarks.has(c.id)}">${bookmarks.has(c.id)?"⭐ Bookmarked":"☆ Bookmark"}</button>
+      </div>
+    `;
+    card.querySelector("[data-open]").addEventListener("click",()=>openModal(c));
+    card.querySelector("[data-star]").addEventListener("click",()=>toggleBookmark(c.id));
+    card.addEventListener("keydown",(e)=>{ if(e.key==="Enter"){openModal(c)} });
+    cardsEl.appendChild(card);
+  });
+}
+render();
+
+/* =========================
+   Stats
+   ========================= */
+$("#stat-careers").textContent = careers.length;
+$("#stat-skills").textContent = TOTAL_SKILLS;
+$("#stat-bookmarks").textContent = bookmarks.size;
+renderBM();
+$("#year").textContent = new Date().getFullYear();
+
+/* =========================
+   Modal + Chart
+   ========================= */
+const modal = $("#careerModal");
+const closeModalBtn = $("#closeModal");
+closeModalBtn.addEventListener("click", ()=>modal.close());
+modal.addEventListener("click", (e)=>{ if(e.target===modal) modal.close(); });
+
+function openModal(c){
+  $("#modalTitle").textContent = c.title;
+  $("#modalSubtitle").textContent = c.blurb;
+  $("#modalOverview").textContent = c.overview;
+  $("#badgeRemote").classList.toggle("hide", !c.flags.remote);
+  $("#badgeEntry").classList.toggle("hide", !c.flags.entry);
+  $("#badgeMath").classList.toggle("hide", !c.flags.math);
+
+  const ul = $("#modalTasks"); ul.innerHTML="";
+  c.tasks.forEach(t=>{ const li=document.createElement("li"); li.textContent=t; ul.appendChild(li); });
+
+  const skills = $("#modalSkills"); skills.innerHTML="";
+  c.skills.forEach(s=>{ const span=document.createElement("span"); span.className="skill"; span.textContent=s; skills.appendChild(span); });
+
+  drawSalaryChart(c.salaries);
+  modal.showModal();
+}
+
+function drawSalaryChart({entry, mid, senior}){
+  const canvas = $("#salaryChart");
+  const ctx = canvas.getContext("2d");
+  // Resize for DPR
+  const dpr = window.devicePixelRatio || 1;
+  const width = canvas.clientWidth || 400;
+  const height = canvas.getAttribute("height");
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  ctx.scale(dpr,dpr);
+  // Clear
+  ctx.clearRect(0,0,width,height);
+  // Data
+  const labels = ["Entry","Mid","Senior"];
+  const vals = [entry, mid, senior];
+  const max = Math.max(...vals) * 1.15;
+  // Axes
+  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim();
+  ctx.font = "12px Inter, sans-serif";
+  ctx.textAlign = "left";
+  ctx.fillText("USD (approx.)", 6, 14);
+  // Bars
+  const barW = 48, gap = 28, startX = 40, baseY = 190;
+  const gradStart = getComputedStyle(document.documentElement).getPropertyValue("--brand").trim() || "#2f6bff";
+  const gradEnd   = getComputedStyle(document.documentElement).getPropertyValue("--brand-2").trim() || "#0fbf7f";
+  vals.forEach((v,i)=>{
+    const h = Math.max(4, (v/max) * 140);
+    const x = startX + i*(barW+gap);
+    const y = baseY - h;
+    const g = ctx.createLinearGradient(0,y,0,baseY);
+    g.addColorStop(0, gradStart);
+    g.addColorStop(1, gradEnd);
+    // shadow
+    ctx.fillStyle = "rgba(0,0,0,.20)";
+    ctx.fillRect(x+2, y+4, barW, h);
+    // bar
+    ctx.fillStyle = g;
+    ctx.fillRect(x, y, barW, h);
+    // value
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 12px Inter, sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("$"+Math.round(v/1000)+"k", x+barW/2, y-6);
+    // label
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--text").trim();
+    ctx.font = "600 13px Inter, sans-serif";
+    ctx.fillText(labels[i], x+barW/2, baseY+14);
+  });
+}
+
+/* =========================
+   Quiz (simple R A S I H blend)
+   ========================= */
+const quizBtn = $("#quizBtn");
+const quizScore = $("#quizScore");
+const quizResults = $("#quizResults");
+function currentScores(){
+  const dims = {R:0,A:0,S:0,I:0,H:0};
+  $$(".range").forEach(r=>{ dims[r.dataset.dim] += Number(r.value); });
+  return dims;
+}
+$$(".range").forEach(r=>r.addEventListener("input", ()=>updateQuizBadge()));
+function updateQuizBadge(){
+  const d = currentScores();
+  quizScore.textContent = `R:${d.R} A:${d.A} S:${d.S} I:${d.I} H:${d.H}`;
+}
+updateQuizBadge();
+
+quizBtn.addEventListener("click", ()=>{
+  const d = currentScores();
+  // score careers by cosine-ish similarity to target trait vector
+  const ranked = careers.map(c=>{
+    const vec = {R:0,A:0,S:0,I:0,H:0};
+    c.traits.forEach(t=>vec[t]+=1);
+    const dot = vec.R*d.R + vec.A*d.A + vec.S*d.S + vec.I*d.I + vec.H*d.H;
+    const magA = Math.hypot(vec.R,vec.A,vec.S,vec.I,vec.H) || 1;
+    const magB = Math.hypot(d.R,d.A,d.S,d.I,d.H) || 1;
+    const score = dot/(magA*magB);
+    return {...c, score};
+  }).sort((a,b)=>b.score-a.score).slice(0,3);
+
+  quizResults.innerHTML = `
+    <div class="card"><strong>Top Matches</strong><div class="handle">Based on your interests.</div></div>
+  ` + ranked.map(c=>`
+    <article class="card">
+      <h3>${c.title}</h3>
+      <div class="sub">${c.blurb}</div>
+      <div class="chips">${c.skills.slice(0,5).map(s=>`<span class="skill">${s}</span>`).join("")}</div>
+      <div class="actions" style="margin-top:.6rem">
+        <button class="btn" type="button" data-open="${c.id}">Details</button>
+        <button class="btn alt" type="button" data-star="${c.id}">${bookmarks.has(c.id)?"⭐ Bookmarked":"☆ Bookmark"}</button>
+        <span class="badge">fit ${(c.score*100).toFixed(0)}%</span>
+      </div>
+    </article>
+  `).join("");
+
+  // wire buttons
+  $$("#quizResults [data-open]").forEach(b=>{
+    const id = b.getAttribute("data-open");
+    b.addEventListener("click", ()=>openModal(careers.find(c=>c.id===id)));
+  });
+  $$("#quizResults [data-star]").forEach(b=>{
+    const id = b.getAttribute("data-star");
+    b.addEventListener("click", ()=>toggleBookmark(id));
+  });
+});
+
+/* =========================
+   Roadmap (drag to reorder)
+   ========================= */
+const roadmapEl = $("#roadmap");
+const roadmapKey = "pf-roadmap";
+let roadmap = JSON.parse(localStorage.getItem(roadmapKey) || "null") || [
+  {id:crypto(),"text":"Identify target role","done":false},
+  {id:crypto(),"text":"Audit current skills","done":false},
+  {id:crypto(),"text":"Plan 3 portfolio pieces","done":false}
+];
+function crypto(){ return Math.random().toString(36).slice(2,9); }
+
+function saveRoadmap(){ localStorage.setItem(roadmapKey, JSON.stringify(roadmap)); }
+function renderRoadmap(){
+  roadmapEl.innerHTML = "";
+  roadmap.forEach((s,i)=>{
+    const div = document.createElement("div");
+    div.className = "step";
+    div.setAttribute("draggable","true");
+    div.dataset.id = s.id;
+    div.innerHTML = `<div class="drag" aria-hidden="true"></div>
+      <label style="display:flex;gap:.6rem;align-items:center;flex:1">
+        <input type="checkbox" ${s.done?"checked":""} aria-label="Mark step done">
+        <span style="flex:1;${s.done?'text-decoration:line-through;opacity:.7':''}">${s.text}</span>
+      </label>
+      <button class="btn alt" type="button" title="Delete">🗑️</button>`;
+    // events
+    div.querySelector("input").addEventListener("change",(e)=>{ s.done = e.target.checked; saveRoadmap(); renderRoadmap(); });
+    div.querySelector("button").addEventListener("click", ()=>{ roadmap = roadmap.filter(x=>x.id!==s.id); saveRoadmap(); renderRoadmap(); });
+
+    // drag
+    div.addEventListener("dragstart", (e)=>{ e.dataTransfer.setData("text/plain", s.id); e.dataTransfer.effectAllowed="move"; });
+    div.addEventListener("dragover", (e)=>{ e.preventDefault(); const draggingId = e.dataTransfer.getData("text/plain"); if(draggingId && draggingId!==s.id){ div.style.outline="2px dashed var(--brand)"; }});
+    div.addEventListener("dragleave", ()=>{ div.style.outline=""; });
+    div.addEventListener("drop", (e)=>{ e.preventDefault(); div.style.outline=""; const draggingId = e.dataTransfer.getData("text/plain");
+      const from = roadmap.findIndex(x=>x.id===draggingId); const to = i;
+      if(from>-1 && to>-1 && from!==to){ const [m]=roadmap.splice(from,1); roadmap.splice(to,0,m); saveRoadmap(); renderRoadmap(); }
+    });
+
+    roadmapEl.appendChild(div);
+  });
+}
+renderRoadmap();
+$("#addStepBtn").addEventListener("click", ()=>{
+  const inp = $("#roadmapInput"); const txt = inp.value.trim();
+  if(!txt) return inp.focus();
+  roadmap.push({id:crypto(), text:txt, done:false});
+  inp.value=""; saveRoadmap(); renderRoadmap();
+});
+$("#clearDoneBtn").addEventListener("click", ()=>{
+  roadmap = roadmap.filter(s=>!s.done); saveRoadmap(); renderRoadmap();
+});
+
+/* =========================
+   Keyboard focus helpers
+   ========================= */
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="Tab") document.body.classList.add("kbd");
+});
+</script>
+</body>
+</html>
